@@ -1,9 +1,5 @@
 package texty
 
-import (
-	layershell "github.com/diamondburned/gotk-layer-shell"
-)
-
 func (c *Config) ApplyDefaults() {
 	for _, window := range c.Windows {
 		hasNoSources := window.Command == nil && window.Text == nil && window.File == nil
@@ -28,10 +24,6 @@ func (c *Config) ApplyDefaults() {
 
 		if c.Defaults.Layer != nil && window.Layer == nil {
 			window.Layer = c.Defaults.Layer
-		} else if window.Layer == nil {
-			// layer must be set, default to bottom
-			layer := layershell.LayerBottom
-			window.Layer = &layer
 		}
 
 		if c.Defaults.Align != nil && window.Align == nil {

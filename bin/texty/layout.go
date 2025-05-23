@@ -8,8 +8,13 @@ import (
 
 func (w *window) layout() {
 	layershell.InitForWindow(w.window)
-	layershell.SetLayer(w.window, *w.config.Layer)
 	layershell.SetExclusiveZone(w.window, 0)
+
+	if w.config.Layer != nil {
+		layershell.SetLayer(w.window, *w.config.Layer)
+	} else {
+		layershell.SetLayer(w.window, layershell.LayerBottom)
+	}
 
 	if w.config.Position != nil {
 		if w.config.Position.Top != nil {
