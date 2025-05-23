@@ -134,6 +134,22 @@ func (w *Window) UnmarshalKDL(node *kdl.Node) error {
 					return fmt.Errorf("invalid align: %s", str.Value())
 				}
 			}
+			if len(node.Arguments) > 1 {
+				return fmt.Errorf("too many arguments for align: %v", node.Arguments)
+			}
+		case "spacing":
+			if str, ok := node.Arguments[0].(kdl.Integer); ok {
+				i, err := strconv.Atoi(fmt.Sprint(str.Value()))
+				if err != nil {
+					return fmt.Errorf("invalid spacing: %v", err)
+				}
+				w.Spacing = &i
+			} else {
+				return fmt.Errorf("invalid spacing: %v", node.Arguments[0])
+			}
+			if len(node.Arguments) > 1 {
+				return fmt.Errorf("too many arguments for spacing: %v", node.Arguments)
+			}
 		default:
 			return fmt.Errorf("unknown property: %s", node.Name)
 		}

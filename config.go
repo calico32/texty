@@ -27,7 +27,8 @@ type Window struct {
 	Position *Position         `json:"position"`
 	Layer    *layershell.Layer `json:"layer"`
 	Style    *Style            `json:"style"`
-	Align    *gtk.Align
+	Align    *gtk.Align        `json:"align"`
+	Spacing  *int              `json:"spacing"`
 }
 
 type Position struct {

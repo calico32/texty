@@ -74,6 +74,8 @@ The `position` property sets the position of the window on the screen. It can be
 
 The `align` property sets the text alignment within the window. It can be one of `left`, `center`, or `right`. The default is `left`, or `center` if the window is centered.
 
+The `spacing` property sets the line spacing for the text. It should be specified in pixels, e.g. `spacing 4` will add 4 pixels of space between lines. The default is `8`.
+
 The optional `id` property (specified inline) allows you to assign a custom ID to the window. This can be useful for targeting the window in CSS styles or for other purposes. If not specified, a random ID will be generated.
 
 ### Styling

@@ -44,6 +44,11 @@ func (w *window) draw() {
 		item.(gtk.IWidget).ToWidget().Destroy()
 	})
 
+	spacing := 8
+	if w.config.Spacing != nil {
+		spacing = *w.config.Spacing
+	}
+
 	for _, lineText := range lines {
 		line, err := gtk.BoxNew(gtk.ORIENTATION_HORIZONTAL, 0)
 		if err != nil {
@@ -58,8 +63,7 @@ func (w *window) draw() {
 			continue
 		}
 		label.SetMarkup(lineText)
-		label.SetMarginTop(4)
-		label.SetMarginBottom(4)
+		label.SetMarginBottom(spacing)
 		line.PackStart(label, true, true, 8)
 		if w.config.Position != nil && w.config.Position.Center && w.config.Align == nil {
 			label.SetHAlign(gtk.ALIGN_CENTER)

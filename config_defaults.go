@@ -30,6 +30,10 @@ func (c *Config) ApplyDefaults() {
 			window.Align = c.Defaults.Align
 		}
 
+		if c.Defaults.Spacing != nil && window.Spacing == nil {
+			window.Spacing = c.Defaults.Spacing
+		}
+
 		if c.Defaults.Style != nil {
 			if window.Style == nil {
 				// simply copy the style

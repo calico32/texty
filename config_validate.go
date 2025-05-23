@@ -45,6 +45,12 @@ func (c Config) Validate() error {
 				return fmt.Errorf("window #%d: position: left and right cannot be set at the same time", i)
 			}
 		}
+
+		if window.Spacing != nil {
+			if *window.Spacing < 0 {
+				return fmt.Errorf("window #%d: spacing cannot be negative", i)
+			}
+		}
 	}
 
 	if c.Defaults.Style != nil && c.Defaults.Style.String != "" {
