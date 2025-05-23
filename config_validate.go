@@ -37,6 +37,14 @@ func (c Config) Validate() error {
 			}
 		}
 
+		if window.Position != nil {
+			if window.Position.Top != nil && window.Position.Bottom != nil {
+				return fmt.Errorf("window #%d: position: top and bottom cannot be set at the same time", i)
+			}
+			if window.Position.Left != nil && window.Position.Right != nil {
+				return fmt.Errorf("window #%d: position: left and right cannot be set at the same time", i)
+			}
+		}
 	}
 
 	if c.Defaults.Style != nil && c.Defaults.Style.String != "" {
