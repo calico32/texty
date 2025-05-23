@@ -19,17 +19,25 @@ type Config struct {
 }
 
 type Window struct {
-	Id       string            `json:"id"`
-	Command  []string          `json:"command"`
-	Text     *string           `json:"text"`
-	File     *string           `json:"file"`
-	Interval *TimeSpec         `json:"interval"`
-	Position *Position         `json:"position"`
-	Layer    *layershell.Layer `json:"layer"`
-	Style    *Style            `json:"style"`
-	Align    *gtk.Align        `json:"align"`
-	Spacing  *int              `json:"spacing"`
+	Id            string            `json:"id"`
+	Command       []string          `json:"command"`
+	CommandFormat CommandFormat     `json:"command_format"`
+	Text          *string           `json:"text"`
+	File          *string           `json:"file"`
+	Interval      *TimeSpec         `json:"interval"`
+	Position      *Position         `json:"position"`
+	Layer         *layershell.Layer `json:"layer"`
+	Style         *Style            `json:"style"`
+	Align         *gtk.Align        `json:"align"`
+	Spacing       *int              `json:"spacing"`
 }
+
+type CommandFormat int
+
+const (
+	CommandFormatText CommandFormat = iota
+	CommandFormatJson
+)
 
 type Position struct {
 	Top    *int `json:"top"`

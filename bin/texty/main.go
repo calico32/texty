@@ -84,7 +84,11 @@ func main() {
 		}
 		styleContext.AddProvider(cssProvider, gtk.STYLE_PROVIDER_PRIORITY_USER)
 
-		w.draw()
+		if w.config.CommandFormat == texty.CommandFormatJson {
+			go w.jsonLoop()
+		} else {
+			go w.draw()
+		}
 
 		windows = append(windows, w)
 	}
@@ -117,13 +121,11 @@ func main() {
 			}
 		})
 
-		w.window.ShowAll()
-
 		if w.config.Interval != nil {
 			ms := time.Duration(*w.config.Interval) / time.Millisecond
 			glib.TimeoutAdd(uint(ms), func() bool {
-				w.draw()
-				return true
+				go w.draw()
+				return !w.closed
 			})
 		}
 	}

@@ -78,6 +78,20 @@ func (w *Window) UnmarshalKDL(node *kdl.Node) error {
 			for i, arg := range node.Arguments {
 				w.Command[i] = fmt.Sprint(arg.Value())
 			}
+			if format, ok := node.Properties["format"]; ok {
+				if str, ok := format.(kdl.String); ok {
+					switch fmt.Sprint(str.Value()) {
+					case "text":
+						w.CommandFormat = CommandFormatText
+					case "json":
+						w.CommandFormat = CommandFormatJson
+					default:
+						return fmt.Errorf("invalid command format: %s", str.Value())
+					}
+				} else {
+					return fmt.Errorf("invalid command format: %v", format)
+				}
+			}
 		case "text":
 			var text strings.Builder
 			for i, arg := range node.Arguments {

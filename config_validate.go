@@ -35,6 +35,16 @@ func (c Config) Validate() error {
 			if window.Text != nil && *window.Text != "" {
 				return fmt.Errorf("window #%d: interval is not valid with text", i)
 			}
+
+			// not valid with command format=json
+			if window.CommandFormat == CommandFormatJson {
+				return fmt.Errorf("window #%d: interval cannot be used when command format is json", i)
+			}
+
+			// cannot be negative
+			if *window.Interval < 0 {
+				return fmt.Errorf("window #%d: interval cannot be negative", i)
+			}
 		}
 
 		if window.Position != nil {
