@@ -10,6 +10,7 @@ import (
 	"github.com/calico32/genpass"
 	"github.com/calico32/kdl-go"
 	layershell "github.com/diamondburned/gotk-layer-shell"
+	"github.com/gotk3/gotk3/gtk"
 )
 
 func (c *Config) UnmarshalKDL(doc *kdl.Document) error {
@@ -48,6 +49,12 @@ var layers = map[string]layershell.Layer{
 	"bottom":     layershell.LayerBottom,
 	"overlay":    layershell.LayerOverlay,
 	"background": layershell.LayerBackground,
+}
+
+var alignments = map[string]gtk.Align{
+	"left":   gtk.ALIGN_START,
+	"center": gtk.ALIGN_CENTER,
+	"right":  gtk.ALIGN_END,
 }
 
 func (w *Window) UnmarshalKDL(node *kdl.Node) error {
@@ -118,6 +125,14 @@ func (w *Window) UnmarshalKDL(node *kdl.Node) error {
 			w.Style = new(Style)
 			if err := w.Style.UnmarshalKDL(node); err != nil {
 				return fmt.Errorf("invalid style: %v", err)
+			}
+		case "align":
+			if str, ok := node.Arguments[0].(kdl.String); ok {
+				if align, ok := alignments[fmt.Sprint(str.Value())]; ok {
+					w.Align = &align
+				} else {
+					return fmt.Errorf("invalid align: %s", str.Value())
+				}
 			}
 		default:
 			return fmt.Errorf("unknown property: %s", node.Name)

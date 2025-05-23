@@ -25,12 +25,17 @@ func (c *Config) ApplyDefaults() {
 		if c.Defaults.Position != nil && window.Position == nil {
 			window.Position = c.Defaults.Position
 		}
+
 		if c.Defaults.Layer != nil && window.Layer == nil {
 			window.Layer = c.Defaults.Layer
 		} else if window.Layer == nil {
 			// layer must be set, default to bottom
 			layer := layershell.LayerBottom
 			window.Layer = &layer
+		}
+
+		if c.Defaults.Align != nil && window.Align == nil {
+			window.Align = c.Defaults.Align
 		}
 
 		if c.Defaults.Style != nil {

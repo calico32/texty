@@ -3,9 +3,13 @@ package texty
 import (
 	"encoding/json"
 	"fmt"
+	"log"
+	"os"
+	"strings"
 	"time"
 
 	layershell "github.com/diamondburned/gotk-layer-shell"
+	"github.com/gotk3/gotk3/gtk"
 )
 
 type Config struct {
@@ -23,6 +27,7 @@ type Window struct {
 	Position *Position         `json:"position"`
 	Layer    *layershell.Layer `json:"layer"`
 	Style    *Style            `json:"style"`
+	Align    *gtk.Align
 }
 
 type Position struct {
@@ -40,7 +45,35 @@ type Style struct {
 
 type TimeSpec time.Duration
 
-func (w *Window) SerializeCSS() string {
+func (c *Config) GenerateCSS(verbose bool) (string, error) {
+	var styles strings.Builder
+
+	if c.Styles != "" {
+		if verbose {
+			log.Printf("loading CSS from %s", c.Styles)
+		}
+		css, err := os.ReadFile(c.Styles)
+		if err != nil {
+			return "", fmt.Errorf("failed to read styles file: %w", err)
+		}
+		styles.Write(css)
+		styles.WriteString("\n")
+	}
+
+	for _, w := range c.Windows {
+		if w.Style != nil {
+			css := w.GenerateCSS()
+			if css != "" {
+				styles.WriteString(css)
+				styles.WriteString("\n")
+			}
+		}
+	}
+
+	return styles.String(), nil
+}
+
+func (w *Window) GenerateCSS() string {
 	if w.Style == nil {
 		return ""
 	}

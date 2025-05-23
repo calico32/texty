@@ -72,6 +72,8 @@ The `layer` property sets which layer the window will be displayed on. It can be
 
 The `position` property sets the position of the window on the screen. It can be specified using the `top`, `bottom`, `left`, and `right` properties, e.g. `top=16 left=16` places the window 16 pixels from the top and left edges of the screen. The special property `center` can be used to center the window on the screen on the unconstrained axis, e.g. `top=16 center` will center the window horizontally while placing it 16 pixels from the top edge.
 
+The `align` property sets the text alignment within the window. It can be one of `left`, `center`, or `right`. The default is `left`, or `center` if the window is centered.
+
 The optional `id` property (specified inline) allows you to assign a custom ID to the window. This can be useful for targeting the window in CSS styles or for other purposes. If not specified, a random ID will be generated.
 
 ### Styling
